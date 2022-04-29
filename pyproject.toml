@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "fastapi-control"
+version = "0.1.0"
+description = "FastAPI utility to implement class-based routing with controllers and dependency injection."
+authors = ["Leynier Gutiérrez González <leynier41@gmail.com>"]
+homepage = "https://github.com/leynier/fastapi-control"
+repository = "https://github.com/leynier/fastapi-control"
+documentation = "https://github.com/leynier/fastapi-control"
+readme = "README.md"
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.75.2"
+kink = "^0.6.3"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.1.2"
+pytest-cov = "^3.0.0"
+pytest-asyncio = "^0.18.3"
+black = "^22.3.0"
+flake8 = "^4.0.1"
+isort = "^5.10.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
