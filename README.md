@@ -1,6 +1,9 @@
 # Welcome to FastAPI Control 👋
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
+[![PyPI version fury.io](https://img.shields.io/pypi/v/fastapi-control.svg)](https://pypi.python.org/pypi/fastapi-control)
+[![PyPI pyversions](https://img.shields.io/pypi/pyversions/fastapi-control.svg)](https://pypi.python.org/pypi/fastapi-control)
 [![Last commit](https://img.shields.io/github/last-commit/leynier/fastapi-control.svg?style=flat)](https://github.com/leynier/fastapi-control/commits)
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/m/leynier/fastapi-control)](https://github.com/leynier/fastapi-control/commits)
 [![Github Stars](https://img.shields.io/github/stars/leynier/fastapi-control?style=flat&logo=github)](https://github.com/leynier/fastapi-control/stargazers)
@@ -8,12 +11,12 @@
 [![Github Watchers](https://img.shields.io/github/watchers/leynier/fastapi-control?style=flat&logo=github)](https://github.com/leynier/fastapi-control)
 [![GitHub contributors](https://img.shields.io/github/contributors/leynier/fastapi-control)](https://github.com/leynier/fastapi-control/graphs/contributors)
 
-> FastAPI utility to implement class-based routing with controllers and dependency injection.
+FastAPI utility to implement class-based routing with controllers and dependency injection.
 
 ## Install
 
 ```sh
-pip install git+https://github.com/leynier/fastapi-control@main
+pip install fastapi-control
 ```
 
 ## Usage
