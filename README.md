@@ -13,7 +13,7 @@
 ## Install
 
 ```sh
-pip install fastapi-control
+pip install git+https://github.com/leynier/fastapi-control@main
 ```
 
 ## Usage
