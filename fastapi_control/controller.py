@@ -26,7 +26,7 @@ from starlette.types import ASGIApp
 
 from .di import factory, inject
 
-__controllers__: List["ApiController"] = []
+__controllers__: List["APIRouter"] = []
 
 ROUTER_KEY = "__api_router__"
 ENDPOINT_KEY = "__endpoint_api_key__"
@@ -37,7 +37,7 @@ SetIntStr = Set[Union[int, str]]
 DictIntStrAny = Dict[Union[int, str], Any]
 
 
-class ApiController(APIRouter):
+class APIControllerRouter(APIRouter):
     """
     Registers endpoints for both a non-trailing-slash and a trailing slash.
     In regards to the exported API schema only the non-trailing slash will be included.
@@ -52,7 +52,11 @@ class ApiController(APIRouter):
     """
 
     def api_route(
-        self, path: str, *, include_in_schema: bool = True, **kwargs
+        self,
+        path: str,
+        *,
+        include_in_schema: bool = True,
+        **kwargs,
     ) -> Callable[[DecoratedCallable], DecoratedCallable]:
         given_path = path
         path_no_slash = given_path[:-1] if given_path.endswith("/") else given_path
@@ -200,7 +204,7 @@ def controller(
     >>>     async def get_users(self, user_id: str = Path(...)):
     >>>         return await self.user_service.get_by_id(user_id)
     """
-    router = ApiController(
+    router = APIControllerRouter(
         prefix=prefix,
         tags=tags,
         dependencies=dependencies,
@@ -226,7 +230,7 @@ def controller(
     return decorator
 
 
-def _controller(router: ApiController, cls: Type[T]) -> Type[T]:
+def _controller(router: APIRouter, cls: Type[T]) -> Type[T]:
     """
     Replaces any methods of the provided class `cls` that are endpoints
     with updated function calls that will properly inject an instance of

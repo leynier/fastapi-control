@@ -1,6 +1,6 @@
 from typing import Any, Callable, Optional, Type, TypeVar
 
-import kink
+from kink import inject as kink_inject
 
 T = TypeVar("T")
 
@@ -8,9 +8,9 @@ T = TypeVar("T")
 def inject(alias: Optional[Type[Any]] = None) -> Callable[[Type[T]], Type[T]]:
     def decorator(cls: Type[T]) -> Type[T]:
         wrapper = (
-            kink.inject(use_factory=True)
+            kink_inject(use_factory=True)
             if alias is None
-            else kink.inject(alias=alias, use_factory=True)
+            else kink_inject(alias=alias, use_factory=True)
         )
         return wrapper(cls)
 
