@@ -26,15 +26,8 @@ from starlette.types import ASGIApp
 
 from .di import factory, inject
 
-__controllers__: List["APIRouter"] = []
-
 ROUTER_KEY = "__api_router__"
 ENDPOINT_KEY = "__endpoint_api_key__"
-
-T = TypeVar("T")
-
-SetIntStr = Set[Union[int, str]]
-DictIntStrAny = Dict[Union[int, str], Any]
 
 
 class APIControllerRouter(APIRouter):
@@ -78,6 +71,21 @@ class APIControllerRouter(APIRouter):
             if given_path == "/"
             else add_path_and_trailing_slash
         )
+
+
+class APIController:
+    @staticmethod
+    def get_router() -> APIControllerRouter:
+        raise NotImplementedError
+
+
+__controllers__: List[Type[APIController]] = []
+
+
+T = TypeVar("T", bound=APIController)
+
+SetIntStr = Set[Union[int, str]]
+DictIntStrAny = Dict[Union[int, str], Any]
 
 
 @dataclass
@@ -223,7 +231,13 @@ def controller(
         generate_unique_id_function=generate_unique_id_function,
     )
 
-    def decorator(cls: Type[T]):
+    def decorator(cls: Type[T]) -> Type[T]:
+        setattr(cls, "get_router", lambda: router)
+        if not router.tags:
+            tag = cls.__name__
+            if tag.endswith("Controller"):
+                tag = tag[:-10]
+            router.tags.append(tag)
         # inject the underlying router in the class
         return _controller(router, cls)
 
@@ -254,7 +268,7 @@ def _controller(router: APIRouter, cls: Type[T]) -> Type[T]:
         router.add_api_route(endpoint=endpoint, **asdict(args))
 
     # register the router
-    __controllers__.append(router)
+    __controllers__.append(cls)
     return cls
 
 
@@ -291,6 +305,36 @@ def _fix_endpoint_signature(cls: Type[Any], endpoint: Callable[..., Any]):
     setattr(endpoint, "__signature__", new_signature)
 
 
+def add_controller(
+    api: FastAPI,
+    controller: Type[T],
+    *,
+    prefix: str = "",
+    tags: Optional[List[Union[str, Enum]]] = None,
+    dependencies: Optional[Sequence[Depends]] = None,
+    responses: Optional[Dict[Union[int, str], Dict[str, Any]]] = None,
+    deprecated: Optional[bool] = None,
+    include_in_schema: bool = True,
+    default_response_class: Type[Response] = Default(JSONResponse),
+    callbacks: Optional[List[BaseRoute]] = None,
+    generate_unique_id_function: Callable[[APIRoute], str] = Default(
+        generate_unique_id
+    ),
+) -> None:
+    api.include_router(
+        controller.get_router(),
+        prefix=prefix,
+        tags=tags,
+        dependencies=dependencies,
+        responses=responses,
+        deprecated=deprecated,
+        include_in_schema=include_in_schema,
+        default_response_class=default_response_class,
+        callbacks=callbacks,
+        generate_unique_id_function=generate_unique_id_function,
+    )
+
+
 def add_controllers(
     api: FastAPI,
     *,
@@ -308,7 +352,7 @@ def add_controllers(
 ) -> None:
     for controller in __controllers__:
         api.include_router(
-            controller,
+            controller.get_router(),
             prefix=prefix,
             tags=tags,
             dependencies=dependencies,
