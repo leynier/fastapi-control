@@ -23,8 +23,14 @@ pip install fastapi-control
 
 ```python
 from fastapi import FastAPI
-
-from fastapi_control import add_controllers, controller, get, inject
+from fastapi_control import (
+    APIController,
+    add_controller,
+    add_controllers,
+    controller,
+    get,
+    inject,
+)
 
 
 # Optionally declares an abstraction
@@ -61,10 +67,11 @@ class NestedGretterImplementation:
         return self.gretter.greet()
 
 
-# With the @controller decorator, we can declare class-based routing (also
-# called controller) and it has the same parameters as FastAPI's APIRouter
+# With the @controller decorator and inheriting from APIController, we can
+# declare class-based routing (also called controller) and it has the same
+# parameters as FastAPI's APIRouter
 @controller(prefix="/home")
-class HomeController:
+class HomeController(APIController):
     # When the @controller decorator is used, the arguments of the __init__
     # method are automatically injected (if the @inject decorator was used
     # in the argument type declarations)
@@ -97,6 +104,12 @@ class HomeController:
 api = FastAPI()
 # Finally, it is necessary to add the controllers to the FastAPI instance
 add_controllers(api)
+
+# If you want to have multiple FastAPI instances with different controllers,
+# you can use the add_controller method to add the desired controllers to
+# the desired FastAPI instance one by one.
+other_api = FastAPI()
+add_controller(other_api, HomeController)
 ```
 
 ## Inspirations
