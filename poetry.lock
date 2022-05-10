@@ -158,7 +158,7 @@ idna = ">=2.0.0"
 
 [[package]]
 name = "fastapi"
-version = "0.75.2"
+version = "0.77.0"
 description = "FastAPI framework, high performance, easy to learn, fast to code, ready for production"
 category = "main"
 optional = false
@@ -173,7 +173,7 @@ pydantic = ">=1.6.2,<1.7 || >1.7,<1.7.1 || >1.7.1,<1.7.2 || >1.7.2,<1.7.3 || >1.
 python-multipart = {version = ">=0.0.5,<0.0.6", optional = true, markers = "extra == \"all\""}
 pyyaml = {version = ">=5.3.1,<7.0.0", optional = true, markers = "extra == \"all\""}
 requests = {version = ">=2.24.0,<3.0.0", optional = true, markers = "extra == \"all\""}
-starlette = "0.17.1"
+starlette = "0.19.0"
 ujson = {version = ">=4.0.1,<4.0.2 || >4.0.2,<4.1.0 || >4.1.0,<4.2.0 || >4.2.0,<4.3.0 || >4.3.0,<5.0.0 || >5.0.0,<5.1.0 || >5.1.0,<6.0.0", optional = true, markers = "extra == \"all\""}
 uvicorn = {version = ">=0.12.0,<0.18.0", extras = ["standard"], optional = true, markers = "extra == \"all\""}
 
@@ -544,15 +544,15 @@ python-versions = ">=3.5"
 
 [[package]]
 name = "starlette"
-version = "0.17.1"
+version = "0.19.0"
 description = "The little ASGI library that shines."
 category = "main"
 optional = false
 python-versions = ">=3.6"
 
 [package.dependencies]
-anyio = ">=3.0.0,<4"
-typing-extensions = {version = "*", markers = "python_version < \"3.8\""}
+anyio = ">=3.4.0,<5"
+typing-extensions = {version = ">=3.10.0", markers = "python_version < \"3.10\""}
 
 [package.extras]
 full = ["itsdangerous", "jinja2", "python-multipart", "pyyaml", "requests"]
@@ -673,7 +673,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "3023a21fdb39c31b9d857938868785fc9463868da8868c2854b671cd81ac3c12"
+content-hash = "09acb0d87866b14b2e11e51f171d86f189756f17c70072803279cf589aa835be"
 
 [metadata.files]
 anyio = [
@@ -785,8 +785,8 @@ email-validator = [
     {file = "email_validator-1.2.1.tar.gz", hash = "sha256:6757aea012d40516357c0ac2b1a4c31219ab2f899d26831334c5d069e8b6c3d8"},
 ]
 fastapi = [
-    {file = "fastapi-0.75.2-py3-none-any.whl", hash = "sha256:a70d31f4249b6b42dbe267667d22f83af645b2d857876c97f83ca9573215784f"},
-    {file = "fastapi-0.75.2.tar.gz", hash = "sha256:b5dac161ee19d33346040d3f44d8b7a9ac09b37df9efff95891f5e7641fa482f"},
+    {file = "fastapi-0.77.0-py3-none-any.whl", hash = "sha256:e37cf40f6374e59e6fe6e223f59f8f30e29608353212fa6b9e4d39d0e9c7bdf9"},
+    {file = "fastapi-0.77.0.tar.gz", hash = "sha256:2bf599a2262ad04a97c31a4900ba38473b673f0748aa54bfb2809344989e77d0"},
 ]
 flake8 = [
     {file = "flake8-4.0.1-py2.py3-none-any.whl", hash = "sha256:479b1304f72536a55948cb40a32dce8bb0ffe3501e26eaf292c7e60eb5e0428d"},
@@ -1081,8 +1081,8 @@ sniffio = [
     {file = "sniffio-1.2.0.tar.gz", hash = "sha256:c4666eecec1d3f50960c6bdf61ab7bc350648da6c126e3cf6898d8cd4ddcd3de"},
 ]
 starlette = [
-    {file = "starlette-0.17.1-py3-none-any.whl", hash = "sha256:26a18cbda5e6b651c964c12c88b36d9898481cd428ed6e063f5f29c418f73050"},
-    {file = "starlette-0.17.1.tar.gz", hash = "sha256:57eab3cc975a28af62f6faec94d355a410634940f10b30d68d31cb5ec1b44ae8"},
+    {file = "starlette-0.19.0-py3-none-any.whl", hash = "sha256:de752c8f6c2ac6ef78bfe44058fc61dc04895eba24d4e47d2ae254ba5c125c5e"},
+    {file = "starlette-0.19.0.tar.gz", hash = "sha256:4a1a92aa89dbacc3a4c694a2c112863e88449730ff99b421a9b71fb2213bcd9c"},
 ]
 tomli = [
     {file = "tomli-2.0.1-py3-none-any.whl", hash = "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc"},
