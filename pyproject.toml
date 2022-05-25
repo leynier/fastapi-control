@@ -11,11 +11,11 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.7"
-fastapi = "^0.77.0"
+fastapi = "^0.78.0"
 kink = "^0.6.3"
 
 [tool.poetry.dev-dependencies]
-fastapi = {extras = ["all"], version = "^0.77.0"}
+fastapi = {extras = ["all"], version = "^0.78.0"}
 pytest = "^7.1.2"
 pytest-cov = "^3.0.0"
 pytest-asyncio = "^0.18.3"
