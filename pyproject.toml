@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "fastapi-control"
-version = "0.3.0"
+version = "0.3.1"
 description = "FastAPI utility to implement class-based routing with controllers and dependency injection."
 authors = ["Leynier Gutiérrez González <leynier41@gmail.com>"]
 homepage = "https://github.com/leynier/fastapi-control"
