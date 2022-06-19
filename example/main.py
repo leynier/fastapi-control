@@ -11,7 +11,7 @@ from fastapi_control import (
 
 # Optionally declares an abstraction
 class GreeterAbstraction:
-    def greet(self):
+    def greet(self) -> str:
         raise NotImplementedError()
 
 
@@ -19,7 +19,7 @@ class GreeterAbstraction:
 # using the @inject decorator
 @inject(alias=GreeterAbstraction)
 class GretterImplementation:
-    def greet(self):
+    def greet(self) -> str:
         return "Hello, world!"
 
 
@@ -27,7 +27,7 @@ class GretterImplementation:
 # to the injection system directly
 @inject()
 class SpanishGretterImplementation:
-    def greet(self):
+    def greet(self) -> str:
         return "Hola, mundo!"
 
 
@@ -39,7 +39,7 @@ class NestedGretterImplementation:
     def __init__(self, spanish_gretter: SpanishGretterImplementation) -> None:
         self.gretter = spanish_gretter
 
-    def greet(self):
+    def greet(self) -> str:
         return self.gretter.greet()
 
 

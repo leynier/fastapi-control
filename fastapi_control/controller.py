@@ -7,6 +7,7 @@ from typing import (
     Dict,
     List,
     Optional,
+    ParamSpec,
     Sequence,
     Set,
     Type,
@@ -49,7 +50,7 @@ class APIControllerRouter(APIRouter):
         path: str,
         *,
         include_in_schema: bool = True,
-        **kwargs,
+        **kwargs: Dict[str, Any],
     ) -> Callable[[DecoratedCallable], DecoratedCallable]:
         given_path = path
         path_no_slash = given_path[:-1] if given_path.endswith("/") else given_path
@@ -83,6 +84,8 @@ __controllers__: List[Type[APIController]] = []
 
 
 T = TypeVar("T", bound=APIController)
+ARG = ParamSpec("ARG")
+RET = TypeVar("RET")
 
 SetIntStr = Set[Union[int, str]]
 DictIntStrAny = Dict[Union[int, str], Any]
@@ -124,8 +127,11 @@ class RouteArgs:
         arbitrary_types_allowed = True
 
 
-def get(path: str, **kwargs):
-    def decorator(fn: Callable[..., Any]):
+def get(
+    path: str,
+    **kwargs: Dict[str, Any],
+) -> Callable[[Callable[ARG, RET]], Callable[ARG, RET]]:
+    def decorator(fn: Callable[ARG, RET]):
         endpoint = RouteArgs(path=path, methods=["GET"], **kwargs)
         setattr(fn, ENDPOINT_KEY, endpoint)
         return fn
@@ -133,8 +139,11 @@ def get(path: str, **kwargs):
     return decorator
 
 
-def post(path: str, **kwargs):
-    def decorator(fn: Callable[..., Any]):
+def post(
+    path: str,
+    **kwargs: Dict[str, Any],
+) -> Callable[[Callable[ARG, RET]], Callable[ARG, RET]]:
+    def decorator(fn: Callable[ARG, RET]):
         endpoint = RouteArgs(path=path, methods=["POST"], **kwargs)
         setattr(fn, ENDPOINT_KEY, endpoint)
         return fn
@@ -142,8 +151,11 @@ def post(path: str, **kwargs):
     return decorator
 
 
-def put(path: str, **kwargs):
-    def decorator(fn: Callable[..., Any]):
+def put(
+    path: str,
+    **kwargs: Dict[str, Any],
+) -> Callable[[Callable[ARG, RET]], Callable[ARG, RET]]:
+    def decorator(fn: Callable[ARG, RET]):
         endpoint = RouteArgs(path=path, methods=["PUT"], **kwargs)
         setattr(fn, ENDPOINT_KEY, endpoint)
         return fn
@@ -151,8 +163,11 @@ def put(path: str, **kwargs):
     return decorator
 
 
-def patch(path: str, **kwargs):
-    def decorator(fn: Callable[..., Any]):
+def patch(
+    path: str,
+    **kwargs: Dict[str, Any],
+) -> Callable[[Callable[ARG, RET]], Callable[ARG, RET]]:
+    def decorator(fn: Callable[ARG, RET]):
         endpoint = RouteArgs(path=path, methods=["PATCH"], **kwargs)
         setattr(fn, ENDPOINT_KEY, endpoint)
         return fn
@@ -160,8 +175,11 @@ def patch(path: str, **kwargs):
     return decorator
 
 
-def delete(path: str, **kwargs):
-    def decorator(fn: Callable[..., Any]):
+def delete(
+    path: str,
+    **kwargs: Dict[str, Any],
+) -> Callable[[Callable[ARG, RET]], Callable[ARG, RET]]:
+    def decorator(fn: Callable[ARG, RET]):
         endpoint = RouteArgs(path=path, methods=["DELETE"], **kwargs)
         setattr(fn, ENDPOINT_KEY, endpoint)
         return fn
@@ -272,7 +290,7 @@ def _controller(router: APIRouter, cls: Type[T]) -> Type[T]:
     return cls
 
 
-def _fix_endpoint_signature(cls: Type[Any], endpoint: Callable[..., Any]):
+def _fix_endpoint_signature(cls: Type[Any], endpoint: Callable[..., Any]) -> None:
     old_signature = signature(endpoint)
     old_parameters: List[Parameter] = list(old_signature.parameters.values())
     old_first_parameter = old_parameters[0]
