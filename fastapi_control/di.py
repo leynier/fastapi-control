@@ -4,6 +4,10 @@ from kink import Container
 from kink import inject as kink_inject
 
 T = TypeVar("T")
+S = TypeVar("S")
+
+ServiceDefinition = Union[Type[S], Callable]
+ServiceResult = Union[S, Callable]
 
 
 class _Container(Container):
@@ -30,7 +34,7 @@ def inject(alias: Optional[Type[Any]] = None) -> Callable[[Type[T]], Type[T]]:
             if alias is None
             else kink_inject(alias=alias, use_factory=True, container=_di)
         )
-        return wrapper(cls)
+        return wrapper(cls)  # type: ignore
 
     return decorator
 
