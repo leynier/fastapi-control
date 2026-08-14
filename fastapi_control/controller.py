@@ -1,4 +1,4 @@
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from enum import Enum
 from inspect import Parameter, getmembers, isfunction, signature
 from typing import (
@@ -117,7 +117,9 @@ class RouteArgs:
     response_model_exclude_defaults: bool = False
     response_model_exclude_none: bool = False
     include_in_schema: bool = True
-    response_class: Union[Type[Response], DefaultPlaceholder] = Default(JSONResponse)
+    response_class: Union[Type[Response], DefaultPlaceholder] = field(
+        default_factory=lambda: Default(JSONResponse)
+    )
     name: Optional[str] = None
     route_class_override: Optional[Type[APIRoute]] = None
     callbacks: Optional[List[Route]] = None
