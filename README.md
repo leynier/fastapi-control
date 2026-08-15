@@ -1,5 +1,6 @@
 # Welcome to FastAPI Control 👋
 
+[![CI](https://github.com/leynier/fastapi-control/actions/workflows/ci.yml/badge.svg)](https://github.com/leynier/fastapi-control/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
 [![PyPI version fury.io](https://img.shields.io/pypi/v/fastapi-control.svg)](https://pypi.python.org/pypi/fastapi-control)
@@ -111,6 +112,21 @@ add_controllers(api)
 other_api = FastAPI()
 add_controller(other_api, HomeController)
 ```
+
+### Clearing the controller registry
+
+Every `@controller` is registered in a global registry used by `add_controllers`. If you need a clean slate (for example, to isolate tests), use `reset_controllers`:
+
+```python
+from fastapi_control import reset_controllers
+
+reset_controllers()  # the registry is now empty
+```
+
+## Requirements
+
+- Python >= 3.10
+- [FastAPI](https://fastapi.tiangolo.com) >= 0.141
 
 ## Inspirations
 
