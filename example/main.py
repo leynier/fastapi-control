@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+
 from fastapi_control import (
     APIController,
     add_controller,

@@ -1,47 +1,47 @@
-from typing import Any, Callable, Optional, Type, TypeVar, Union
+"""Dependency injection support built on top of kink."""
+
+from __future__ import annotations
+
+from collections.abc import Callable
+from typing import Any, TypeVar
 
 from kink import Container
 from kink import inject as kink_inject
 
 T = TypeVar("T")
-S = TypeVar("S")
 
-ServiceDefinition = Union[Type[S], Callable]
-ServiceResult = Union[S, Callable]
+_di = Container()  # type: ignore[no-untyped-call]
 
 
-class _Container(Container):
+def inject(alias: type[Any] | None = None) -> Callable[[type[T]], type[T]]:
+    """Class decorator that makes the decorated class injectable.
+
+    The constructor arguments of the decorated class are resolved from the
+    global service container when it is instantiated. When ``alias`` is
+    provided, the class is also registered as the default implementation of
+    that abstraction, so dependents can depend on the abstraction instead.
     """
-    This is a hack to combine the alias and the use_factory params
-    because in the kink default Container class when alias param
-    is used, the use_factory param is ignored.
-    """
 
-    def __getitem__(self, key: Union[str, Type]) -> Any:
-        if key in self._aliases:
-            key = self._aliases[key][0]
-
-        return Container.__getitem__(self, key)
-
-
-_di = _Container()
-
-
-def inject(alias: Optional[Type[Any]] = None) -> Callable[[Type[T]], Type[T]]:
-    def decorator(cls: Type[T]) -> Type[T]:
+    def decorator(cls: type[T]) -> type[T]:
         wrapper = (
             kink_inject(use_factory=True, container=_di)
             if alias is None
             else kink_inject(alias=alias, use_factory=True, container=_di)
         )
-        return wrapper(cls)  # type: ignore
+        return wrapper(cls)  # type: ignore[return-value]
 
     return decorator
 
 
 def factory(f: Callable[..., T]) -> Callable[[], T]:
-    return lambda: f()
+    """Adapt ``f`` into a parameterless factory suitable for ``Depends``."""
+
+    def _factory() -> T:
+        return f()
+
+    return _factory
 
 
 def instantiate(f: Callable[..., T]) -> T:
+    """Call the given factory and return a fresh instance."""
     return f()
