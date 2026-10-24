@@ -34,6 +34,7 @@ kink = ">=0.9.0,<0.10.0"
 
 [tool.poetry.group.dev.dependencies]
 fastapi = {extras = ["all"], version = ">=0.141.1,<2.0.0"}
+certifi = ">=2026.10.19"
 pytest = ">=9.1.1,<10.0.0"
 pytest-cov = "^7.1.0"
 pytest-asyncio = "^1.4.0"
